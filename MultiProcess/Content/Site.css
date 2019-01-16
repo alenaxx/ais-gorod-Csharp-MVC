@@ -1,0 +1,95 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+body {
+    font: 14px 'Verdana';
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    ul:after {
+        display: block;
+        content: ' ';
+        clear: both;
+        float: none;
+    }
+
+    ul.menu > li {
+        float: left;
+        position: relative;
+    }
+
+        ul.menu > li > a {
+            display: block;
+            padding: 16px;
+            color: #ccc;
+            background-color: #222;
+            text-decoration: none;
+            font: 17px 'Verdana';
+        }
+
+            ul.menu > li > a:hover {
+                background-color: black;
+            }
+
+    ul.submenu {
+        display: none;
+        position: absolute;
+        width: 120px;
+        top: 37px;
+        left: 0;
+        background-color: white;
+        border: 1px solid black;
+    }
+
+        ul.submenu > li {
+            display: block;
+            width: 208px;
+        }
+
+            ul.submenu > li > a {
+                display: block;
+                padding: 10px;
+                color: white;
+                background-color: #222;
+                text-decoration: none;
+            }
+
+                ul.submenu > li > a:hover {
+                    text-decoration: underline;
+                }
+
+
+    ul.menu > li:hover > ul.submenu {
+        display: block;
+    }

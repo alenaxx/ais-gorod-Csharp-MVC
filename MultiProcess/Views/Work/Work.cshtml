@@ -1,0 +1,289 @@
+﻿
+@model  MultiProcess.Models.WorkModel
+@{
+    ViewBag.Title = "Work";
+}
+
+<h2>Works</h2>
+
+<form action="/Work/Work" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+                <tr>
+                    <td class="td-width">
+                        <h3>Наименование работ</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="td-padding">
+                                        Наименование организации
+                                    </td>
+                                    <td class="td-padding">
+                                        Наименование работы
+                                    </td>
+                                    <td class="td-padding">
+                                        Наименование базы
+                                    </td>
+                                    <td class="td-padding">
+                                        Наименование процедуры
+                                    </td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@if (Model.WorkList != null)
+                                {
+                                    foreach (var wbase in Model.WorkList)
+                                    {
+                                        <tr>
+                                            <td class="td-padding">
+                                                @wbase.orgName
+                                            </td>
+                                            <td class="td-padding">
+                                                @wbase.name
+                                            </td>
+                                            <td class="td-padding">
+                                                @wbase.dataBaseName
+                                            </td>
+                                            <td class="td-padding">
+                                                @wbase.sqlProcedure
+                                            </td>
+                                        </tr>
+                                    }
+                                }*@
+                                @if (Model.WorkList != null)
+                                {
+                                    int i = 0;
+                                    int a = 0;
+                                    foreach (var wbase in Model.WorkList)
+                                    {
+                                        if (i > 0)
+                                        {
+                                            a = i - 1;
+                                        }
+                                        <tr>
+                                            @if (wbase.orgName == Model.WorkList[a].orgName && i != 0)
+                                            {
+                                                <td @*rowspan="4"*@ class="td-padding1"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="td-padding">
+                                                    @wbase.orgName
+                                                </td>
+                                            }
+                                            <td class="td-padding">
+                                                @wbase.name
+                                            </td>
+                                            <td class="td-padding">
+                                                @wbase.dataBaseName
+                                            </td>
+                                            <td class="td-padding">
+                                                @wbase.sqlProcedure
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="td-width" style="padding-left:30px">
+                        <h3>Добавить работу  </h3>
+                        <table class="table-org">
+                            <tbody>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%"> Введите наименование работы</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.TextBoxFor(e => e.name, new { @class = "form-control" })
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%"> Введите наименование процедуры </label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.TextBoxFor(e => e.sqlProcedure, new { @class = "form-control" })
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return CheckSave()">Сохранить</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<form action="/Work/WorkOrg" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+                <tr>
+                    <td class="td-width"></td>
+                    <td class="td-width" style="padding-left:30px">
+                        <table>
+                            <tr>
+
+                                <td class="table-org">
+                                    <h3>Добавить Работу к Организации </h3>
+                                    <label style="width: 49%">Выберите организацию</label>
+                                    <div style="width: 49%;margin-bottom:10px">
+                                        @Html.DropDownListFor(e => e.orgId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-org">
+                                    <label style="width: 49%">Выберите работу</label>
+                                    <div style="width: 49%;margin-bottom:10px">
+                                        @Html.DropDownListFor(e => e.workTypeId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-org">
+                                    <button class="btn btn-default" type="submit" onclick="return CheckSave1()">Сохранить</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+</form>
+
+
+
+
+<style>
+    .table-org {
+        width: 100%;
+    }
+
+    .td-width {
+        width: 49%
+    }
+
+    .td-padding {
+        padding: 4px;
+        border: 1px solid black
+    }
+
+    .class-base-list {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+        .td-padding1
+
+    {
+        padding: 4px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+
+    .qw {
+        border-bottom: 1px solid black;
+    }
+
+    .td-nonbrbttm {
+        border-bottom: none;
+    }
+</style>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        orgInit();
+        workInit();
+    });
+
+    function CheckSave() {
+        var s1 = $('#name').val().replace(/ /ig, '');
+        var s2 = $('#sqlProcedure').val().replace(/ /ig, '');
+        if (s1.length > 0 && s2.length > 0 ) {
+            return true;
+        }
+        else {
+            alert('Одно из обязательных полей не заполнено');
+            return false;
+        }
+    }
+
+    function CheckSave1() {
+        var s1 = $('#orgId option:selected').val();
+        var s2 = $('#workTypeId option:selected').val();
+        if (s1 != 'undefined' && s2 != 'undefined') {
+            return true;
+        }
+        else {
+            alert('Одно из обязательных полей не заполнено');
+            return false;
+        }
+    }
+
+    
+
+    function orgInit() {
+        var orgSelect = $("#orgId");
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("getOrg", "Work")',
+                success: function (data) {
+                    $.each(data, function (id, option) {
+                        orgSelect.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    $(orgSelect).val('-1').change();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                   alert('Не удалось получить данные.');
+                }
+            });
+    }
+
+          function workInit() {
+              var workSelect = $("#workTypeId");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("getWork", "Work")',
+                success: function (data) {
+                    $.each(data, function (id, option) {
+                       workSelect.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    $(workSelect).val('-1').change();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                   alert('Не удалось получить данные.');
+                }
+            });
+    }
+</script>

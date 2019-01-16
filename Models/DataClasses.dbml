@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aisgorod" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=192.168.253.51;Initial Catalog=aisgorod;Persist Security Info=True;User ID=dev" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="aisgorodConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.OrganizationsView" Member="OrganizationsView">
+    <Type Name="OrganizationsView">
+      <Column Name="iPadress" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dataBaseName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="orgName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrWorkView" Member="TrWorkView">
+    <Type Name="TrWorkView">
+      <Column Name="trName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="workId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="workTypeId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ListView" Member="ListView">
+    <Type Name="ListView">
+      <Column Name="orgName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="sqlProcedure" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dataBaseName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="iPadress" Type="System.String" DbType="NChar(100)" CanBeNull="true" />
+      <Column Name="trName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.WorksView" Member="WorksView">
+    <Type Name="WorksView">
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="sqlProcedure" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="orgName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dataBaseName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="iPadress" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="mp.[DataBase]" Member="DataBase">
+    <Type Name="DataBase">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="iPadress" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dataBaseName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="DataBase_OrganizationBases" Member="OrganizationBases" ThisKey="id" OtherKey="orgId" Type="OrganizationBases" />
+    </Type>
+  </Table>
+  <Table Name="mp.Organizations" Member="Organizations">
+    <Type Name="Organizations">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="orgName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Organizations_Works" Member="Works" ThisKey="id" OtherKey="orgId" Type="Works" />
+      <Association Name="Organizations_OrganizationBases" Member="OrganizationBases" ThisKey="id" OtherKey="orgId" Type="OrganizationBases" />
+    </Type>
+  </Table>
+  <Table Name="mp.ProcessWorkBases" Member="ProcessWorkBases">
+    <Type Name="ProcessWorkBases">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="processWorkId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="organizationBaseId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="value" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="statusId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="error" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="comment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ProcessWorkBases_ProcessWorkBaseDetails" Member="ProcessWorkBaseDetails" ThisKey="id" OtherKey="processWorkBaseId" Type="ProcessWorkBaseDetails" />
+      <Association Name="ProcessStatus_ProcessWorkBases" Member="ProcessStatus" ThisKey="statusId" OtherKey="id" Type="ProcessStatus" IsForeignKey="true" />
+      <Association Name="ProcessWorks_ProcessWorkBases" Member="ProcessWorks" ThisKey="processWorkId" OtherKey="id" Type="ProcessWorks" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="mp.Transcript" Member="Transcript">
+    <Type Name="Transcript">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="trName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="workId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="value" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="Works_Transcript" Member="Works" ThisKey="workId" OtherKey="id" Type="Works" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="mp.Works" Member="Works">
+    <Type Name="Works">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="workTypeId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="orgId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="launchType" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="launchData" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Works_Transcript" Member="Transcript" ThisKey="id" OtherKey="workId" Type="Transcript" />
+      <Association Name="Organizations_Works" Member="Organizations" ThisKey="orgId" OtherKey="id" Type="Organizations" IsForeignKey="true" />
+      <Association Name="WorkType_Works" Member="WorkType" ThisKey="workTypeId" OtherKey="id" Type="WorkType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="mp.WorkType" Member="WorkType">
+    <Type Name="WorkType">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="sqlProcedure" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="baseId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Association Name="WorkType_Works" Member="Works" ThisKey="id" OtherKey="workTypeId" Type="Works" />
+    </Type>
+  </Table>
+  <Table Name="mp.OrganizationBases" Member="OrganizationBases">
+    <Type Name="OrganizationBases">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="orgId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="baseId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="DataBase_OrganizationBases" Member="DataBase" ThisKey="orgId" OtherKey="id" Type="DataBase" IsForeignKey="true" />
+      <Association Name="Organizations_OrganizationBases" Member="Organizations" ThisKey="orgId" OtherKey="id" Type="Organizations" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="mp.ProcessStatus" Member="ProcessStatus">
+    <Type Name="ProcessStatus">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="ProcessStatus_ProcessWorkBases" Member="ProcessWorkBases" ThisKey="id" OtherKey="statusId" Type="ProcessWorkBases" />
+      <Association Name="ProcessStatus_ProcessStatus" Member="ProcessStatus2" ThisKey="id" OtherKey="id" Type="ProcessStatus" Cardinality="One" />
+      <Association Name="ProcessStatus_ProcessWorks" Member="ProcessWorks" ThisKey="id" OtherKey="statusId" Type="ProcessWorks" />
+      <Association Name="ProcessStatus_ProcessStatus" Member="ProcessStatus1" ThisKey="id" OtherKey="id" Type="ProcessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FullView" Member="FullView">
+    <Type Name="FullView">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="processWorkId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="organizationBaseId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="value" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="statusId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="error" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="comment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Expr1" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="period" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="workId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ProcessWorkValue" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ProcessWorkComment" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ProcessWorkStatusId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="ProcessWorkCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SqlProcedureView" Member="SqlProcedureView">
+    <Type Name="SqlProcedureView">
+      <Column Name="iPadress" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="baseId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="sqlProcedure" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dataBaseName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="mp.ProcessWorks" Member="ProcessWorks">
+    <Type Name="ProcessWorks">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="period" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="workId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="value" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="statusId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ProcessWorks_ProcessWorkBases" Member="ProcessWorkBases" ThisKey="id" OtherKey="processWorkId" Type="ProcessWorkBases" />
+      <Association Name="ProcessStatus_ProcessWorks" Member="ProcessStatus" ThisKey="statusId" OtherKey="id" Type="ProcessStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="mp.ProcessWorkBaseDetails" Member="ProcessWorkBaseDetails">
+    <Type Name="ProcessWorkBaseDetails">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="processWorkBaseId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="detailName" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="value" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="ProcessWorkBases_ProcessWorkBaseDetails" Member="ProcessWorkBases" ThisKey="processWorkBaseId" OtherKey="id" Type="ProcessWorkBases" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.GetDataBase" Method="GetDataBase">
+    <Parameter Name="iPadress" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="dataBaseName" Type="System.String" DbType="NVarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetOrganization" Method="GetOrganization">
+    <Parameter Name="orgName" Type="System.String" DbType="NVarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetOrganizationBases" Method="GetOrganizationBases">
+    <Parameter Name="orgId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="baseId" Type="System.Int64" DbType="BigInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetWorkProc" Method="GetWorkProc">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="sqlProcedure" Type="System.String" DbType="NVarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetWorkOrg" Method="GetWorkOrg">
+    <Parameter Name="WorkTypeId" Parameter="workTypeId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="OrgId" Parameter="orgId" Type="System.Int64" DbType="BigInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetWorkTr" Method="GetWorkTr">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetTranscript" Method="GetTranscript">
+    <Parameter Name="trName" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="workId" Type="System.Int64" DbType="BigInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetWork" Method="GetWork" IsComposable="true">
+    <Parameter Name="Orgid" Parameter="orgid" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="GetWorkResult">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.FullProcessWorks" Method="FullProcessWorks">
+    <Parameter Name="WorkId" Parameter="workId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="period" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="created" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="mp.GetWorkId" Method="GetWorkId" IsComposable="true">
+    <Parameter Name="WorkId" Parameter="workId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="period" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="created" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetProcedure1" Method="GetProcedure1">
+    <Parameter Name="Period" Parameter="period" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetProcedure1Result">
+      <Column Name="detailName" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetProcedure" Method="GetProcedure">
+    <Parameter Name="Period" Parameter="period" Type="System.DateTime" DbType="DateTime" />
+    <ElementType Name="GetProcedureResult">
+      <Column Name="value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SaveValueToProcessWorkBases" Method="SaveValueToProcessWorkBases">
+    <Parameter Name="idd" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="value" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="countOrgBases" Type="System.Int64" DbType="BigInt" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SaveValueToProcessWorkBaseDetails" Method="SaveValueToProcessWorkBaseDetails">
+    <Parameter Name="id" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="detaleName" Type="System.String" DbType="NVarChar(100)" />
+    <Parameter Name="value" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="period" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.FullProcessWorkBases" Method="FullProcessWorkBases">
+    <Parameter Name="WorkId" Parameter="workId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="BaseId" Parameter="baseId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="period" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

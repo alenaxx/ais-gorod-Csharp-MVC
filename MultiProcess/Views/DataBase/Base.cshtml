@@ -1,0 +1,116 @@
+﻿@using MultiProcess.Models;
+@model  MultiProcess.Models.DataBaseModel
+@{
+    ViewBag.Title = "Base";
+
+}
+
+<h2 style="border-bottom:1px solid black;margin-top: 70px;">Базы данных</h2>
+
+@*@using (Html.BeginForm("Base", "DataBase", FormMethod.Post, new { }))
+    {*@
+<form action="/DataBase/Base" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+                <tr>
+                    <td class="td-width">
+                        <h3>Список зарегестрированных баз</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="td-padding">
+                                        IP Адрес
+                                    </td>
+                                    <td class="td-padding">
+                                        Наименование БД
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.DataBaseList != null)
+                                {
+                                    foreach (var dbase in Model.DataBaseList)
+                                    {
+                                        <tr>
+                                            <td class="td-padding">
+                                                @dbase.ipAdress
+                                            </td>
+                                            <td class="td-padding">
+                                                @dbase.nameBD
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="td-width" style="padding-left:30px">
+                        <h3>Добавить БД  </h3>
+                        <table class="table-org">
+                            <tbody>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%"> Введите адрес</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.TextBoxFor(e => e.ipAdress, new { @class = "form-control" })
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%"> Введите наименование</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.TextBoxFor(e => e.nameBD, new { @class = "form-control" })
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return CheckSave()">Сохранить</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+
+<style>
+    .td-padding {
+        padding: 4px;
+        border: 1px solid black
+    }
+
+    .table-org {
+        width: 100%;
+    }
+
+    .td-width {
+        width: 49%
+    }
+</style>
+
+<script type="text/javascript">
+
+    function CheckSave() {
+        var s1 = $('#ipAdress').val().replace(/ /ig, '');
+        var s2 = $('#nameBD').val().replace(/ /ig, '');
+        //alert(s1.length);
+        //	alert(s2.length);
+        if (s1.length > 0 && s2.length > 0) {
+            return true;
+        }
+        else {
+            alert('Одно из обязательных полей не заполнено');
+            return false;
+        }
+    }
+
+</script>

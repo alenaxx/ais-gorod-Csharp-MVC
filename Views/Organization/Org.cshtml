@@ -1,0 +1,274 @@
+﻿@model  MultiProcess.Models.OrganizationModel
+@{
+
+    ViewBag.Title = "Org";
+}
+
+<h2 style="border-bottom:1px solid black">Организации</h2>
+
+<form id="formOrg" action="/Organization/Org" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+                <tr>
+                    <td class="td-width">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="td-padding">
+                                        Список организаций
+                                    </td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (Model.OrganizationList != null)
+                                {
+                                    foreach (var torg in Model.OrganizationList)
+                                    {
+                                        <tr>
+                                            <td class="td-padding">
+                                                @torg.orgName
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </td>
+                
+                    
+                    <td class="td-width" style="padding-left:30px">
+                        <h3>Добавить Организацию </h3>
+                        <table class="table-org">
+                            <tbody>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%"> Введите наименование организации</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.TextBoxFor(e => e.orgName, new { @class = "form-control" })
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return CheckSave()">Сохранить</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<form id="formOrg1" action="/Organization/OrgBases" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+               
+           <tr>
+                    <td class="td-width">
+                        <h3></h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="td-padding">
+                                        Наименование организации
+                                    </td>
+                                    <td class="td-padding">
+                                        Наименование базы
+                                    </td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.OrganizationList != null)
+                                {
+                                    foreach (var torg in Model.OrganizationList)
+                                    {
+                                        <tr>
+                                            <td class="td-padding">
+                                                @torg.orgName
+                                            </td>
+                                            <td class="td-padding">
+                                                @torg.baseName
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="td-width" style="padding-left:30px">
+                        <h3>Добавить Базу к Организации </h3>
+                        <table class="table-org">
+                            <tbody>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%">Выберите организацию</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.DropDownListFor(e => e.orgId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return GetWorkId()">WorkId</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%">Выберите базу</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.DropDownListFor(e => e.baseId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return CheckSave1()">Сохранить</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+<style>
+    .table-org {
+        width: 100%;
+    }
+
+    element.style {
+        padding-left: 30px;
+    }
+    .td-width {
+        width: 49%
+    }
+
+    .td-padding {
+        padding: 4px;
+        border: 1px solid black
+    }
+
+    .class-base-list {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    $(function () {
+        orgInit();
+        baseInit();
+    });
+    function CheckSave() {
+        var s1 = $('#orgName').val().replace(/ /ig, '');
+        if (s1.length > 0) {
+            return true;
+        }
+        else {
+            alert('Одно из обязательных полей не заполнено');
+            return false;
+        }
+    }
+
+    function CheckSave1() {
+        var s1 = $('#orgId option:selected').val();
+        var s2 = $('#baseId option:selected').val();
+        //var s = $('#actionButton').html("addOrgBase");
+       if (s1 != 'undefined' && s2 != 'undefined') {
+            return true;
+        }
+        else {
+            alert('Одно из обязательных полей не заполнено');
+            return false;
+        }
+    }
+
+    function orgInit() {
+        var orgSelect = $("#orgId");
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("getOrg", "Organization")',
+                success: function (data) {
+                    $.each(data, function (id, option) {
+                        orgSelect.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    $(orgSelect).val('-1').change();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                   alert('Не удалось получить данные.');
+                }
+            });
+    }
+
+        function baseInit() {
+            var baseSelect = $("#baseId");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("getBase", "Organization")',
+                success: function (data) {
+                    $.each(data, function (id, option) {
+                        baseSelect.append($('<option></option>').val(option.id).html(option.name));
+                    });
+                    $(baseSelect).val('-1').change();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                   alert('Не удалось получить данные.');
+                }
+            });
+    }
+
+     
+
+    function GetWorkId() {
+
+        
+        $.ajax({
+            cache: false,
+            type: "GET",
+            data: { "orgId": orgId },
+            url: '@Url.Action("GetWorkId", "Org")',
+            success: function (data) {
+                $.each(data, function (id, option) {
+                   
+                });
+                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Не удалось получить данные.');
+            }
+        });
+                }
+ 
+</script>

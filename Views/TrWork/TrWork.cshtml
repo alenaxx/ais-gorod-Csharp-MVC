@@ -1,0 +1,288 @@
+﻿@model  MultiProcess.Models.TrWorkModel
+@{
+
+    ViewBag.Title = "TrWork";
+}
+
+ 
+
+<h2 style="border-bottom:1px solid black">Расшифровка</h2>
+
+<form id="formOrg" action="/TrWork/TrWork" method="post">
+    <div>
+        <table class="table-org">
+
+                <tbody>
+                    <tr>
+                        <td class="td-width">
+                            <h3></h3>
+                            <table>
+                                <thead>
+                                    <tr>
+
+                                        <td  class="td-padding">
+                                            Наименование Работы
+                                        </td>
+                                        <td class="td-padding">
+                                            Расшифровка
+                                        </td>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="qw">
+                                   
+                                        @if (Model.TrWorkList != null)
+                                        {
+                                            int i = 0;
+                                            int a = 0;
+                                            foreach (var tworg in Model.TrWorkList)
+                                            {
+                                                if(i > 0)
+                                                {
+                                                     a = i - 1;
+                                                }
+                                                <tr>
+                                                    @if (tworg.WorkName == Model.TrWorkList[a].WorkName && i != 0 ) { 
+                                                    <td  @*rowspan="4"*@  class="td-padding1">
+                                                    
+                                                    </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td @*rowspan="4"*@ class="td-padding td-nonbrbttm">
+                                                            @tworg.WorkName
+                                                        </td>
+                                                    }
+                                                    <td class="td-padding">
+                                                        @tworg.trName
+                                                    </td>
+                                                </tr>
+                                                i++;
+                                            }
+                                        }
+                                   
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="td-width" style="padding-left:100px">
+                            <h3>Добавить Работу </h3>
+                            <table class="table-org">
+                                <tbody>
+                                    <tr>
+                                        <td class="table-org">
+                                            <label style="width: 49%"> Введите расшифровку</label>
+                                            <div style="width: 49%;margin-bottom:10px">
+                                                @Html.TextBoxFor(e => e.trName, new { @class = "form-control" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-org">
+                                            <label style="width: 49%">Укажите работу</label>
+                                            <div style="width: 49%;margin-bottom:10px">
+                                                @Html.DropDownListFor(e => e.workId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-org">
+                                            <button class="btn btn-default" type="submit" onclick="return CheckSave()">Сохранить</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+</table>
+    </div>
+</form>
+
+@*<form id="formOrg1" action="/TrWork/WorkOrg" method="post">
+    <div>
+        <table class="table-org">
+            <tbody>
+                <tr>
+                    <td class="td-width">
+                        <h3></h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="td-padding">
+                                        Наименование Работы
+                                    </td>
+                                    <td class="td-padding">
+                                        Расшифровка
+                                    </td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.TrWorkList != null)
+                                {
+                                    foreach (var tworg in Model.TrWorkList)
+                                    {
+                                        <tr>
+                                            <td class="td-padding">
+                                                @tworg.trName
+                                            </td>
+                                            <td class="td-padding">
+                                                @tworg.WorkName
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="td-width" style="padding-left:30px">
+                        <h3>Добавить Расшифровку к Работе </h3>
+                        <table class="table-org">
+                            <tbody>
+                                <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%">Выберите работу</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.DropDownListFor(e => e.workTypeId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                        </div>
+                                    </td>
+                                </tr>
+                             <tr>
+                                    <td class="table-org">
+                                        <label style="width: 49%">Выберите расшифровку</label>
+                                        <div style="width: 49%;margin-bottom:10px">
+                                            @Html.DropDownListFor(e => e.workTypeId, new List<SelectListItem>(), new { @class = "class-base-list" })
+                                        </div>
+                                    </td>
+                                </tr>
+
+                              <tr>
+                                    <td class="table-org">
+                                        <button class="btn btn-default" type="submit" onclick="return CheckSave1()">Сохранить</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form>*@
+
+
+
+<style>
+    .table-org {
+        width: 100%;
+    }
+
+    .td-width {
+        width: 49%
+    }
+
+    .td-padding {
+        padding: 4px;
+        border: 1px solid black
+    }
+
+    .class-base-list {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+    .td-padding1 {
+        padding: 4px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+    .qw {
+        border-bottom: 1px solid black;
+    }
+    .td-nonbrbttm {
+        border-bottom: none;
+    }
+</style>
+@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            workInit();
+            //trworkInit();
+        });
+
+
+        function CheckSave() {
+            var s1 = $('#trName').val().replace(/ /ig, '');
+            var s2 = $('#workId option:selected').val();
+            if (s1.length > 0 && s2.length >0 ) {
+                return true;
+            }
+            else {
+                alert('Одно из обязательных полей не заполнено');
+                return false;
+            }
+        }
+
+        function CheckSave1() {
+            var s1 = $('#workTypeId option:selected').val();
+            var s2 = $('#workId option:selected').val() ;
+     
+           if (s1 != 'undefined' && s2 != 'undefined') {
+                return true;
+            }
+            else {
+                alert('Одно из обязательных полей не заполнено');
+                return false;
+            }
+        }
+
+        function workInit() {
+            var workSelect = $("#workId");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("getTrWork", "TrWork")',
+                    success: function (data) {
+                        $.each(data, function (id, option) {
+                            workSelect.append($('<option></option>').val(option.id).html(option.name));
+                        });
+                        $(workSelect).val('-1').change();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                       alert('Не удалось получить данные.');
+                    }
+                });
+        }
+
+            function   trworkInit() {
+                var baseSelect = $("#workTypeId");
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("getTrWork", "TrWork")',
+                    success: function (data) {
+                        $.each(data, function (id, option) {
+                            baseSelect.append($('<option></option>').val(option.id).html(option.name));
+                        });
+                        $(baseSelect).val('-1').change();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                       alert('Не удалось получить данные.');
+                    }
+                });
+        }
+    </script>

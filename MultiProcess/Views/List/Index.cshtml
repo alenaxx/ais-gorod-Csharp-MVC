@@ -1,0 +1,44 @@
+﻿@using MultiProcess.Models;
+@model  MultiProcess.Models.ListModel
+ 
+@{
+    ViewBag.Title = "Список";
+    
+}
+<h2 style="border-bottom:1px solid black;margin-top: 70px;"> @ViewBag.Title</h2>
+<form action="/List/Index" method="post">
+    <ul>
+            @if (Model.RollOrg != null)
+            {
+                foreach (var dbase in Model.RollOrg)
+                {
+                    <li style="margin-bottom:5px">
+                        <a class="btn btn-default" href="" onclick="GetInfo(this) ">@dbase.orgName</a>
+                    </li>
+                }
+            }
+        </ul>
+</form>
+<script type="text/javascript">
+
+    function GetInfo(button) {
+
+        var orgName = $(button).text();
+        $.ajax({
+            cache: false,
+            type: "GET",
+            data: { "orgName": orgName },
+            url: '@Url.Action("GetInfo", "List")',
+            success: function (data) {
+                $.each(data, function (id, option) {
+                    //   workSelect.append($('<option></option>').val(option.id).html(option.name));
+                });
+                //  $(workSelect).val('-1').change();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Не удалось получить данные.');
+            }
+        });
+                }
+
+</script>
